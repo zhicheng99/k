@@ -2,7 +2,15 @@
 
 官网的写法是el-table-column下面嵌套el-table-column，如下：
 
-![image-20260717180801050](D:\k\.vuepress\public\assets\image-20260717180801050.png)
+
+
+
+
+![image-20260717215137153](./assets/image-20260717215137153.png)
+
+
+
+![image-20260717215139063](./assets/image-20260717215139063.png)
 
 ```html
 <template>
