@@ -7,9 +7,9 @@ module.exports = {
   ],
   themeConfig: {
     algolia: {
-      appId: "94TJRUSSVM",
-      apiKey: "941614e14d7a41584c653c9bed684ad8",
-      indexName: "k",
+      appId: "VHK35PIBP8",
+      apiKey: "bb89a7555541af96d500213fb23ea66d",
+      indexName: "kk",
     },
     sidebarDepth: 0,
     sidebar: [
