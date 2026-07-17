@@ -134,7 +134,7 @@ generate_sidebar() {
         local basename=$(basename "$file")
         [ "$basename" = "README.md" ] && continue
         
-        local rel_path="${file#./}"
+        local rel_path="/${file#./}"
         local title=$(grep -m1 '^#\s*' "$file" 2>/dev/null | sed 's/^#\s*//' | sed 's/[[:space:]]*$//')
         [ -z "$title" ] && title=$(basename "$file" .md)
         
