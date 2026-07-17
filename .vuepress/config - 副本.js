@@ -1,6 +1,6 @@
 module.exports = {
-  title: '日常记录',
-  description: '日常记录',
+  title: '日常收集',
+  description: 'Just playing around',
   base: '/k/',
   plugins: [
     ['vuepress-plugin-side-anchor']
@@ -13,11 +13,7 @@ module.exports = {
     },
     sidebarDepth: 0,
     sidebar: [
-    {
-      "title": "element-ui",
-      "children": [
-        ["element-ui/fsfdsfds.md", "element ui 表格动态生成多级表头，可无限嵌套"]
-      ]
-    }    ]
+      ["fsfsfdsf/fsfdsfds.md", " fsfdsfds"],
+    ]
   }
 }
