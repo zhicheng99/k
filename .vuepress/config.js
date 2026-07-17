@@ -7,11 +7,13 @@ module.exports = {
   ],
   themeConfig: {
     algolia: {
-      appId: "VHK35PIBP8",
-      apiKey: "72e05530eb3e8b95d9a65cef01f2b00c",
-      indexName: "book",
+      appId: "94TJRUSSVM",
+      apiKey: "941614e14d7a41584c653c9bed684ad8",
+      indexName: "k",
     },
     sidebarDepth: 0,
-    sidebar: []
+    sidebar: [
+      ["fsfsfdsf/fsfdsfds.md", " fsfdsfds"],
+    ]
   }
 }
