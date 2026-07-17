@@ -16,7 +16,7 @@ module.exports = {
     {
       "title": "element-ui",
       "children": [
-        ["element-ui/fsfdsfds.md", "element ui 表格动态生成多级表头，可无限嵌套"]
+        ["element-ui/element ui 表格动态生成多级表头，可无限嵌套.md", "element ui 表格动态生成多级表头，可无限嵌套"]
       ]
     }    ]
   }

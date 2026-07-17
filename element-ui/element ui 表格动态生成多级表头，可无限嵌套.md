@@ -2,6 +2,8 @@
 
 官网的写法是el-table-column下面嵌套el-table-column，如下：
 
+![image-20260717172606222](D:\k\element-ui\assets\image-20260717172606222.png)
+
 ```html
 <template>
   <el-table
