@@ -1,0 +1,17 @@
+{
+  "name": "k",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "vuepress build ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue-template-compiler": "^2.7.14",
+    "vuepress": "^1.9.10",
+    "vuepress-plugin-side-anchor": "^1.0.6"
+  }
+}
