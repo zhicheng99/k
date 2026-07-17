@@ -1,6 +1,6 @@
 module.exports = {
-  title: '日常记录',
-  description: '日常记录',
+  title: '日常收集',
+  description: 'Just playing around',
   base: '/k/',
   plugins: [
     ['vuepress-plugin-side-anchor']
