@@ -893,5 +893,3 @@ MyColumn.vue
 
 </style>
 ```
-
-<back-top/>
