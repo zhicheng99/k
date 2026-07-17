@@ -1,11 +1,74 @@
 #!/bin/bash
 
+echo -e "\033[32m～～～～～～～～～～～～～～～～～～～～～～～～～\033[0m"
+echo -e "\033[31m  author: zhicheng\033[0m"
+echo -e "\033[31m  该脚本使用vuepress自动生成静态站点到docs目录中\033[0m" 
+echo -e "\033[32m～～～～～～～～～～～～～～～～～～～～～～～～～\033[0m"
+echo -e ""
+
+# 递归遍历所有 .md 文件，添加 <back-top/>
+add_back_top() {
+    local dir="$1"
+    
+    for item in "$dir"/*; do
+        [ ! -e "$item" ] && continue
+        
+        local basename=$(basename "$item")
+        
+        case "$basename" in
+            .vuepress|assets|docs|node_modules)
+                continue
+                ;;
+        esac
+        
+        if [ -d "$item" ]; then
+            add_back_top "$item"
+        elif [[ "$item" == *.md ]]; then
+            # 检查是否已包含 <back-top/>
+            if ! grep -q '<back-top/>' "$item" 2>/dev/null; then
+                echo "" >> "$item"
+                echo "<back-top/>" >> "$item"
+            fi
+        fi
+    done
+}
+
+# 递归遍历所有 .md 文件，移除 <back-top/>
+remove_back_top() {
+    local dir="$1"
+    
+    for item in "$dir"/*; do
+        [ ! -e "$item" ] && continue
+        
+        local basename=$(basename "$item")
+        
+        case "$basename" in
+            .vuepress|assets|docs|node_modules)
+                continue
+                ;;
+        esac
+        
+        if [ -d "$item" ]; then
+            remove_back_top "$item"
+        elif [[ "$item" == *.md ]]; then
+            # 移除 <back-top/> 及其前面的空行
+            if grep -q '<back-top/>' "$item" 2>/dev/null; then
+                sed -i '/^<back-top\/>$/d' "$item"
+                # 删除文件末尾的空行
+                while [[ $(tail -n 1 "$item") == "" ]]; do
+                    sed -i '$ d' "$item"
+                done
+            fi
+        fi
+    done
+}
+
+# 生成侧边栏
 generate_sidebar() {
     local dir="$1"
     local indent="$2"
     local first=true
     
-    local files=()
     local dirs=()
     
     for item in "$dir"/*; do
@@ -21,12 +84,10 @@ generate_sidebar() {
         
         if [ -d "$item" ]; then
             dirs+=("$item")
-        elif [[ "$item" == *.md ]]; then
-            files+=("$item")
         fi
     done
     
-    if [ ${#dirs[@]} -eq 0 ] && [ ${#files[@]} -eq 0 ]; then
+    if [ ${#dirs[@]} -eq 0 ]; then
         return
     fi
     
@@ -87,12 +148,16 @@ generate_sidebar() {
     done
 }
 
+# ========== 主流程 ==========
+
+ 
+echo -e "\033[32m 步骤1: 生成 .vuepress/config.js ...\033[0m" 
 OUTPUT_FILE=".vuepress/config.js"
 
 cat > "$OUTPUT_FILE" << 'HEADER'
 module.exports = {
-  title: '日常记录',
-  description: '日常记录',
+  title: '日常收集',
+  description: 'Just playing around',
   base: '/k/',
   plugins: [
     ['vuepress-plugin-side-anchor']
@@ -115,21 +180,33 @@ cat >> "$OUTPUT_FILE" << 'FOOTER'
 }
 FOOTER
 
-echo "已生成 $OUTPUT_FILE"
 
-#生成静态站点
+echo -e "\033[32m 步骤2: 给所有 .md 文件添加 <back-top/> ...\033[0m" 
+add_back_top "."
+
+ 
+echo -e "\033[32m 步骤3: 执行 npm run build ...\033[0m" 
 npm run build
+ 
+echo -e "\033[32m 步骤4: 移除所有 .md 文件中的 <back-top/> ...\033[0m" 
+remove_back_top "."
 
-#清空docs文件夹
+ 
+echo -e "\033[32m 步骤5: 清空docs文件夹\033[0m" 
 rm -rf docs/*
-
-#生成的整站文件拷贝到docs中
+ 
+echo -e "\033[32m 步骤6: 整站文件拷贝到docs中\033[0m" 
 cp -R .vuepress/dist/* docs/
 
 #清空dist文件夹
+echo -e "\033[32m 步骤7: 清空dist文件夹\033[0m" 
 rm -rf .vuepress/dist/*
+ 
+echo -e "\033[32m 静态站点生成完毕！√ \033[0m" 
+
 
 # git add .
 # git commit -am'update'
 # git pull
 # git push
+
