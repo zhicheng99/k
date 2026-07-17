@@ -24,7 +24,6 @@ add_back_top() {
         if [ -d "$item" ]; then
             add_back_top "$item"
         elif [[ "$item" == *.md ]]; then
-            # 检查是否已包含 <back-top/>
             if ! grep -q '<back-top/>' "$item" 2>/dev/null; then
                 echo "" >> "$item"
                 echo "<back-top/>" >> "$item"
@@ -51,12 +50,13 @@ remove_back_top() {
         if [ -d "$item" ]; then
             remove_back_top "$item"
         elif [[ "$item" == *.md ]]; then
-            # 移除 <back-top/> 及其前面的空行
             if grep -q '<back-top/>' "$item" 2>/dev/null; then
-                sed -i '/^<back-top\/>$/d' "$item"
-                # 删除文件末尾的空行
+                # 删除 <back-top/>
+                sed '/^<back-top\/>$/d' "$item" > "$item.tmp" && mv "$item.tmp" "$item"
+
+                # 删除文件末尾空行
                 while [[ $(tail -n 1 "$item") == "" ]]; do
-                    sed -i '$ d' "$item"
+                    sed '$d' "$item" > "$item.tmp" && mv "$item.tmp" "$item"
                 done
             fi
         fi
@@ -91,7 +91,6 @@ generate_sidebar() {
         return
     fi
     
-    # 输出子目录
     for dir_item in "${dirs[@]}"; do
         local dir_name=$(basename "$dir_item")
         
@@ -105,7 +104,6 @@ generate_sidebar() {
         printf '%s  "title": "%s",\n' "$indent" "$dir_name"
         printf '%s  "children": [\n' "$indent"
         
-        # 子目录下的文件
         local child_first=true
         for file in "$dir_item"/*.md; do
             [ ! -e "$file" ] && continue
@@ -127,7 +125,6 @@ generate_sidebar() {
         printf '%s}' "$indent"
     done
     
-    # 输出当前目录下的文件（跳过 README.md）
     for file in "$dir"/*.md; do
         [ ! -e "$file" ] && continue
         
@@ -150,7 +147,6 @@ generate_sidebar() {
 
 # ========== 主流程 ==========
 
- 
 echo -e "\033[32m 步骤1: 生成 .vuepress/config.js ...\033[0m" 
 OUTPUT_FILE=".vuepress/config.js"
 
@@ -180,33 +176,22 @@ cat >> "$OUTPUT_FILE" << 'FOOTER'
 }
 FOOTER
 
-
 echo -e "\033[32m 步骤2: 给所有 .md 文件添加 <back-top/> ...\033[0m" 
 add_back_top "."
 
- 
 echo -e "\033[32m 步骤3: 执行 npm run build ...\033[0m" 
 npm run build
- 
+
 echo -e "\033[32m 步骤4: 移除所有 .md 文件中的 <back-top/> ...\033[0m" 
 remove_back_top "."
 
- 
 echo -e "\033[32m 步骤5: 清空docs文件夹\033[0m" 
 rm -rf docs/*
- 
+
 echo -e "\033[32m 步骤6: 整站文件拷贝到docs中\033[0m" 
 cp -R .vuepress/dist/* docs/
 
-#清空dist文件夹
 echo -e "\033[32m 步骤7: 清空dist文件夹\033[0m" 
 rm -rf .vuepress/dist/*
- 
-echo -e "\033[32m 静态站点生成完毕！√ \033[0m" 
 
-
-# git add .
-# git commit -am'update'
-# git pull
-# git push
-
+echo -e "\033[32m 静态站点生成完毕！√ \033[0m"
