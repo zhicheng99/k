@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>js实现类的继承 | 日常收集</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    
+    <meta name="description" content="Just playing around">
+    
+    <link rel="preload" href="/k/assets/css/0.styles.d46447c5.css" as="style"><link rel="preload" href="/k/assets/js/app.eb41b4c5.js" as="script"><link rel="preload" href="/k/assets/js/2.a49dc8b3.js" as="script"><link rel="preload" href="/k/assets/js/1.8d6de105.js" as="script"><link rel="preload" href="/k/assets/js/28.84f33cb0.js" as="script"><link rel="preload" href="/k/assets/js/19.4eaea0a1.js" as="script"><link rel="prefetch" href="/k/assets/js/10.d211c2c6.js"><link rel="prefetch" href="/k/assets/js/11.3645e077.js"><link rel="prefetch" href="/k/assets/js/12.faa5abde.js"><link rel="prefetch" href="/k/assets/js/13.89c6b56f.js"><link rel="prefetch" href="/k/assets/js/14.54bc2f41.js"><link rel="prefetch" href="/k/assets/js/15.d9bda2e9.js"><link rel="prefetch" href="/k/assets/js/16.59cdcd2e.js"><link rel="prefetch" href="/k/assets/js/17.de5ff27e.js"><link rel="prefetch" href="/k/assets/js/18.b348d7f7.js"><link rel="prefetch" href="/k/assets/js/20.421e2006.js"><link rel="prefetch" href="/k/assets/js/21.4e404179.js"><link rel="prefetch" href="/k/assets/js/22.8f565c0a.js"><link rel="prefetch" href="/k/assets/js/23.6357809d.js"><link rel="prefetch" href="/k/assets/js/24.06587eb3.js"><link rel="prefetch" href="/k/assets/js/25.256f7356.js"><link rel="prefetch" href="/k/assets/js/26.755cd9c1.js"><link rel="prefetch" href="/k/assets/js/27.5ec805ec.js"><link rel="prefetch" href="/k/assets/js/3.e30a11b1.js"><link rel="prefetch" href="/k/assets/js/4.a136c1d2.js"><link rel="prefetch" href="/k/assets/js/5.78fafd73.js"><link rel="prefetch" href="/k/assets/js/6.2703fe94.js"><link rel="prefetch" href="/k/assets/js/7.51e9e0b3.js"><link rel="prefetch" href="/k/assets/js/vendors~docsearch.3e337192.js">
+    <link rel="stylesheet" href="/k/assets/css/0.styles.d46447c5.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/k/" class="home-link router-link-active"><!----> <span class="site-name">日常收集</span></a> <div class="links"><form id="search-form" role="search" class="algolia-search-wrapper search-box"><input id="algolia-search-input" class="search-query"></form> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>element-ui</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>js</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/k/js/js实现类的继承.html" class="active sidebar-link">js实现类的继承</a></li></ul></section></li><li><a href="/k/typora插入图片设置.html" class="sidebar-link">typora插入图片设置</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="js实现类的继承"><a href="#js实现类的继承" class="header-anchor">#</a> js实现类的继承</h1> <div class="language- extra-class"><pre class="language-text"><code>
+var Class = {
+    extend:function({initialize,members,protos}){
+
+           
+
+            var _this = this;
+            // _this.f = _this.prototype.deepClone;
+            var newClass = function(options){ 
+                   
+                     
+                    //---每个类的实例成员都要继承下来(members) ---
+                    //如果只继承一层 注释掉该部分即可
+                    if(_this.prototype.isFun(_this)){ 
+
+                        var t = new _this();
+                        // var o = {};
+                        // for(var i in t){
+                        //     if(t.hasOwnProperty(i)){ 
+                        //         o[i] = t[i];
+                        //     }
+                        // }
+                        // var newO = _this.prototype.deepClone(o);
+                        // for(var i in newO){ 
+                        //     this[i] = newO[i];
+                        // }
+
+                        for(var i in t){
+                            if(t.hasOwnProperty(i)){ 
+                                this[i] = _this.prototype.deepClone(t[i]);
+                            }
+                        }
+
+
+                    }
+                    //--------end-----------
+
+
+                    //实例成员 
+                    // var newMember = _this.prototype.deepClone(members); 
+                    // for(var i in newMember){ 
+                    //     this[i] = newMember[i];
+                    // }
+
+                    for(var i in members){
+                        if(members.hasOwnProperty(i)){
+                            this[i] = _this.prototype.deepClone(members[i]);
+                        }
+                    }
+                 
+                    //实例化时的参数对象也并到实例成员中
+                    var options = options||{};
+                    if(_this.prototype.isObj(options)){
+                        for(var i in options){
+                            if(this[i] &amp;&amp; _this.prototype.isObj(this[i])){
+                                this[i] = {
+                                    ...this[i],
+                                    ..._this.prototype.deepClone(options[i])
+                                }
+                            }else{
+                                this[i] = options[i];   
+                            }
+                        }
+                    }
+ 
+
+                //执行初始化方法
+                initialize &amp;&amp; initialize.call(this);
+                
+
+                // this.extend = _this.extend;
+            }
+            newClass.extend = _this.extend
+
+            //原型继承
+            newClass.prototype = {
+                ..._this.prototype,
+                ...protos||{}
+            };
+            newClass.prototype.constructor = newClass;
+            return newClass; 
+    },
+    prototype:{
+        class_f:function(){
+
+        },
+        isObj:function(o) {
+		    return Object.prototype.toString.call(o) === '[object Object]';
+		},
+		isFun:function(o) {
+		    return Object.prototype.toString.call(o) === '[object Function]';
+		},
+		isArr:function(o) {
+		    return Object.prototype.toString.call(o) === '[object Array]';
+		},
+		isNum:function(o) {
+		    return Object.prototype.toString.call(o) === '[object Number]';
+		},
+		isBool:function(o) {
+		    return Object.prototype.toString.call(o) === '[object Boolean]';
+		},
+		isStr:function(o) {
+		    return Object.prototype.toString.call(o) === '[object String]';
+		},
+        deepClone:function(obj) {
+            var f = obj=&gt;{
+                if (obj === null || typeof obj !== 'object') {
+                    return obj;
+                }
+            
+                if (obj instanceof Date) {
+                    return new Date(obj.getTime());
+                }
+
+                if (obj instanceof RegExp) return new RegExp(obj.source, obj.flags);
+            
+                if (obj instanceof Array) {
+                    return obj.reduce((arr, item, i) =&gt; {
+                        arr[i] = f(item);  
+
+
+                        return arr;
+                    }, []);
+                }
+            
+                if (obj instanceof Object) {
+                    return Object.keys(obj).reduce((newObj, key) =&gt; {
+                        newObj[key] = f(obj[key]);  
+
+
+                        return newObj;
+                    }, {});
+                }
+            }
+
+            return f(obj);
+           
+        }
+    }
+}
+
+var A = Class.extend({
+    members:{
+       a1:1,
+       eventContainer:{
+           'click':[],
+           'aa':'a'
+       }
+    },
+    initialize:function(){ 
+      
+    },
+    protos:{ 
+       a_f:function(){
+           console.log('a_f');
+       }
+    }
+}) 
+console.log('A');
+console.log(new A());
+
+var B = A.extend({
+    members:{
+        b1:1,
+        eventContainer:{
+            'click':[],
+            'bb':'b'
+        }
+    },
+    initialize:function(){
+
+    },
+    protos:{
+
+    }
+})
+
+ var b1 = new B();
+ console.log('b1')
+ console.log(b1);
+
+</code></pre></div><!----></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/k/element-ui/element ui 表格动态生成多级表头，可无限嵌套.html" class="prev">
+        element ui 表格动态生成多级表头，可无限嵌套
+      </a></span> <span class="next"><a href="/k/typora插入图片设置.html">
+        typora插入图片设置
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><section class="side-anchor"><ul style="display:none;"></ul></section></div></div>
+    <script src="/k/assets/js/app.eb41b4c5.js" defer></script><script src="/k/assets/js/2.a49dc8b3.js" defer></script><script src="/k/assets/js/1.8d6de105.js" defer></script><script src="/k/assets/js/28.84f33cb0.js" defer></script><script src="/k/assets/js/19.4eaea0a1.js" defer></script>
+  </body>
+</html>
