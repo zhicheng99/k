@@ -13,7 +13,7 @@ module.exports = {
       //apiKey: "bb89a7555541af96d500213fb23ea66d",
       apiKey:"72e05530eb3e8b95d9a65cef01f2b00c",
       //apiKey:"c64d99d7233c868e667414b42aa4aa54",
-      indexName: "kk",
+      indexName: "book",
     },
     sidebarDepth: 0,
     sidebar: [
