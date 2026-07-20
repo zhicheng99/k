@@ -181,7 +181,8 @@ module.exports = {
     algolia: {
       appId: "VHK35PIBP8",
       //apiKey: "bb89a7555541af96d500213fb23ea66d",
-      apiKey:"72e05530eb3e8b95d9a65cef01f2b00c",
+      //apiKey:"72e05530eb3e8b95d9a65cef01f2b00c",
+      apiKey:"09995659b64997b66380d5d6114b5ba2",
       indexName: "kk",
     },
     sidebarDepth: 0,
