@@ -72,91 +72,61 @@ generate_sidebar() {
     local dir="$1"
     local indent="$2"
     local first=true
-    
-    local dirs=()
-    
+
+    # 子目录
     for item in "$dir"/*; do
         [ ! -e "$item" ] && continue
-        
+
         local basename=$(basename "$item")
-        
+
         case "$basename" in
-            .vuepress|assets|docs|node_modules)
+            .vuepress|assets|docs|node_modules|_*|__*)
                 continue
                 ;;
         esac
-        
+
         if [ -d "$item" ]; then
-            dirs+=("$item")
+            local dir_name=$(basename "$item")
+            local sub_result
+            sub_result=$(generate_sidebar "$item" "    $indent")
+
+            if [ -n "$sub_result" ]; then
+                if [ "$first" = false ]; then
+                    echo ","
+                fi
+                first=false
+
+                echo "${indent}{"
+                echo "${indent}  \"title\": \"${dir_name}\","
+                echo "${indent}  \"children\": ["
+                echo "$sub_result"
+                echo "${indent}  ]"
+                echo "${indent}}"
+            fi
         fi
     done
-    
-    if [ ${#dirs[@]} -eq 0 ]; then
-        return
-    fi
-    
-    # 输出子目录
-    for dir_item in "${dirs[@]}"; do
-        local dir_name=$(basename "$dir_item")
-        
-        if [ "$first" = true ]; then
-            first=false
-        else
-            printf ",\n"
-        fi
-        
-        printf '%s{\n' "$indent"
-        printf '%s  "title": "%s",\n' "$indent" "$dir_name"
-        printf '%s  "children": [\n' "$indent"
-        
-        # 子目录下的文件
-        local child_first=true
-        for file in "$dir_item"/*.md; do
-            [ ! -e "$file" ] && continue
-            
-            local rel_path="${file#./}"
-            local title=$(grep -m1 '^#\s*' "$file" 2>/dev/null | sed 's/^#\s*//' | sed 's/[[:space:]]*$//')
-            
-            # 如果标题为空，使用文件名（去掉 .md 扩展名）
-            if [ -z "$title" ]; then
-                title=$(basename "$file" .md)
-            fi
-            
-            if [ "$child_first" = true ]; then
-                child_first=false
-            else
-                printf ",\n"
-            fi
-            
-            printf '%s    ["%s", "%s"]' "$indent" "$rel_path" "$title"
-        done
-        
-        printf '\n%s  ]\n' "$indent"
-        printf '%s}' "$indent"
-    done
-    
-    # 输出当前目录下的文件（跳过 README.md）
+
+    # .md 文件
     for file in "$dir"/*.md; do
         [ ! -e "$file" ] && continue
-        
+
         local basename=$(basename "$file")
         [ "$basename" = "README.md" ] && continue
-        
-        local rel_path="${file#./}"
-        local title=$(grep -m1 '^#\s*' "$file" 2>/dev/null | sed 's/^#\s*//' | sed 's/[[:space:]]*$//')
-        
-        # 如果标题为空，使用文件名（去掉 .md 扩展名）
-        if [ -z "$title" ]; then
-            title=$(basename "$file" .md)
+
+        local rel_path="/${file#./}"
+        rel_path=$(echo "$rel_path" | sed 's#//*#/#g')
+
+        local title
+        title=$(grep -m1 '^#\s*' "$file" 2>/dev/null | sed 's/^#\s*//' | sed 's/[[:space:]]*$//')
+        [ -z "$title" ] && title="${basename%.md}"
+        title=$(echo "$title" | sed 's/"/\\"/g')
+
+        if [ "$first" = false ]; then
+            echo ","
         fi
-        
-        if [ "$first" = true ]; then
-            first=false
-        else
-            printf ",\n"
-        fi
-        
-        printf '%s["%s", "%s"]' "$indent" "$rel_path" "$title"
+        first=false
+
+        echo "${indent}[\"${rel_path}\", \"${title}\"]"
     done
 }
 
