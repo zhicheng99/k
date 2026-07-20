@@ -115,7 +115,7 @@ generate_sidebar() {
             [ ! -e "$file" ] && continue
             
             local rel_path="${file#./}"
-            local title=$(grep -m1 '^#\s*' "$file" 2>/dev/null | sed 's/^#\s*//' | sed 's/[[:space:]]*$//')
+            local title=$(grep -m1 '^#\{1,6\}\s*' "$file" 2>/dev/null | sed 's/^#\{1,6\}\s*//' | sed 's/[[:space:]]*$//')
             
             # 如果标题为空，使用文件名（去掉 .md 扩展名）
             if [ -z "$title" ]; then
@@ -143,7 +143,7 @@ generate_sidebar() {
         [ "$basename" = "README.md" ] && continue
         
         local rel_path="${file#./}"
-        local title=$(grep -m1 '^#\s*' "$file" 2>/dev/null | sed 's/^#\s*//' | sed 's/[[:space:]]*$//')
+        local title=$(grep -m1 '^#\{1,6\}\s*' "$file" 2>/dev/null | sed 's/^#\{1,6\}\s*//' | sed 's/[[:space:]]*$//')
         
         # 如果标题为空，使用文件名（去掉 .md 扩展名）
         if [ -z "$title" ]; then
