@@ -10,7 +10,8 @@ module.exports = {
   themeConfig: {
     algolia: {
       appId: "VHK35PIBP8",
-      apiKey:"72e05530eb3e8b95d9a65cef01f2b00c",
+     // apiKey:"72e05530eb3e8b95d9a65cef01f2b00c",
+      apiKey:"c64d99d7233c868e667414b42aa4aa54",
       indexName: "kk",
     },
     sidebarDepth: 0,
