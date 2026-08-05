@@ -32,7 +32,8 @@ module.exports = {
         ["js/promise串、并行实现.md", "promise串、并行实现"],
         ["js/promise暂停 继续.md", "promise暂停 继续"],
         ["js/原型方法卸载dom事件（once）.md", "原型方法卸载dom事件"],
-        ["js/自动触发dom事件.md", "自动触发dom事件"]
+        ["js/自动触发dom事件.md", "自动触发dom事件"],
+        ["js/详细解CommonJS和UMD.md", "详细解释一下CommonJS和UMD"]
       ]
     },
     ["typora插入图片设置.md", "typora插入图片设置"]    ]
