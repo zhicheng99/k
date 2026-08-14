@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "@vuepress/plugin-back-to-top": "^1.9.10",
-    "echarts": "^6.1.0",
     "vue-template-compiler": "^2.7.14",
     "vuepress": "^1.9.10",
     "vuepress-plugin-side-anchor": "^1.0.6"
