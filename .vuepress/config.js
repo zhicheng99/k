@@ -5,7 +5,7 @@ module.exports = {
   plugins: [
     ['vuepress-plugin-side-anchor', {
       showDepth: null
-    }]
+    }],'@vuepress/back-to-top'
   ],
   themeConfig: {
     algolia: {

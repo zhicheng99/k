@@ -175,7 +175,7 @@ module.exports = {
   plugins: [
     ['vuepress-plugin-side-anchor', {
       showDepth: null
-    }]
+    }],'@vuepress/back-to-top'
   ],
   themeConfig: {
     algolia: {
@@ -196,22 +196,22 @@ cat >> "$OUTPUT_FILE" << 'FOOTER'
 }
 FOOTER
 
-echo -e "\033[32m 步骤2: 给所有 .md 文件添加 <back-top/> ...\033[0m"
-add_back_top "."
+# echo -e "\033[32m 步骤2: 给所有 .md 文件添加 <back-top/> ...\033[0m"
+# add_back_top "."
 
-echo -e "\033[32m 步骤3: 执行 npm run build ...\033[0m"
+echo -e "\033[32m 步骤2: 执行 npm run build ...\033[0m"
 npm run build
 
-echo -e "\033[32m 步骤4: 移除所有 .md 文件中的 <back-top/> ...\033[0m"
-remove_back_top "."
+# echo -e "\033[32m 步骤4: 移除所有 .md 文件中的 <back-top/> ...\033[0m"
+# remove_back_top "."
 
-echo -e "\033[32m 步骤5: 清空docs文件夹\033[0m"
+echo -e "\033[32m 步骤3: 清空docs文件夹\033[0m"
 rm -rf docs/*
 
-echo -e "\033[32m 步骤6: 整站文件拷贝到docs中\033[0m"
+echo -e "\033[32m 步骤4: 整站文件拷贝到docs中\033[0m"
 cp -R .vuepress/dist/* docs/
 
-echo -e "\033[32m 步骤7: 清空dist文件夹\033[0m"
+echo -e "\033[32m 步骤5: 清空dist文件夹\033[0m"
 rm -rf .vuepress/dist/*
 
 echo -e "\033[32m 静态站点生成完毕！√ \033[0m"
