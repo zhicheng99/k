@@ -3,7 +3,8 @@ import Chart from './pluginComponents/Chart.js'
 
 export default ({ Vue, options, router, siteData, isServer }) => {
 
-  if(document !== undefined){
+       if (isServer) return  // ✅ 构建阶段直接跳过，不碰任何 DOM
+        
        var initAllPlugins = function(){
 
           //渲染chart图表
@@ -15,7 +16,5 @@ export default ({ Vue, options, router, siteData, isServer }) => {
        } else if(document.readyState === 'complete'){
          initAllPlugins()
        }
-  }
  
-  
 }
