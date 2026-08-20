@@ -119,9 +119,6 @@ export default ({ Vue, options, router, siteData, isServer }) => {
       PlantUml = require('./pluginComponents/PlantUml/PlantUml.js').default || require('./pluginComponents/PlantUml/PlantUml.js')
     }
 
-    console.log('PlantUml');
-    console.log(PlantUml);
-
      // 渲染 plantuml 思维导图
     const plantumlBlocks = document.querySelectorAll('.language-plantuml')
     if (plantumlBlocks.length === 0) {
