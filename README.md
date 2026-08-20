@@ -4,7 +4,7 @@
 
 读书不是让你记住多少知识，是让你更容易识破别人的谎言！
 
-注：vuepress转成静态站点时   暂时只支持[typora_plugin](https://github.com/obgnail/typora_plugin/tree/master)插件中以下图表渲染 其它正在开发中...
+注：vuepress转成静态站点时   暂时只支持[typora_plugin](https://github.com/obgnail/typora_plugin/tree/master)中以下插件渲染
 
 chart
 
