@@ -7,11 +7,13 @@ export default ({ Vue, options, router, siteData, isServer }) => {
   let Markmap = null
   let Marp = null
   let PlantUml = null
+  let Callout = null
   let retryCount = 0
   let retryCount1 = 0;
   let retryCount2 = 0;
   let retryCount3 = 0;
   let retryCount4 = 0;
+  let retryCount5 = 0;
 
 
  
@@ -136,10 +138,29 @@ export default ({ Vue, options, router, siteData, isServer }) => {
         console.warn('[PlantUml plugin] init failed:', e)
       }
     })
+  }
 
-
-
-
+  var initCallouts = function(){
+    if (!Callout) {
+      Callout = require('./pluginComponents/Callout/Callout.js').default || require('./pluginComponents/Callout/Callout.js')
+    }
+    const calloutBlocks = document.querySelectorAll('blockquote')
+    console.log('calloutBlocks', calloutBlocks)
+    if (calloutBlocks.length === 0) {
+      retryCount5++
+      if (retryCount5 < 5) setTimeout(initCallouts, 200)
+      return
+    }
+    retryCount5 = 0
+    
+    calloutBlocks.forEach((el) => {
+      if (el.__calloutInstance) return
+      try {
+        Callout(el)
+      } catch (e) {
+        console.warn('[Callout plugin] init failed:', e)
+      } 
+    })
   }
 
 
@@ -152,6 +173,7 @@ export default ({ Vue, options, router, siteData, isServer }) => {
     // initMarp();
 
     initPlatUml();
+    initCallouts();
 
 
   }

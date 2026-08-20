@@ -1,0 +1,241 @@
+@font-face
+  font-family "FontAwesome"
+  src url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/fonts/fontawesome-webfont.woff") format("woff")
+  font-weight normal
+  font-style normal
+  font-display swap
+
+
+.plugin-callout
+  background-color: #fff
+  border-left: 4px solid #dfe2e5
+  padding: 10px 10px 10px 15px
+  box-shadow: 0 0.2rem 0.5rem #0000000d, 0 0 0.05rem #0000001a
+  overflow: hidden 
+
+.plugin-callout[callout-type] 
+  background-color: #FAFAFA
+  border-left: #777777
+
+.plugin-callout > p:first-child 
+  margin: -10px -10px -10px -15px
+  padding: 10px 10px 10px 15px
+  letter-spacing: 1px
+
+
+.plugin-callout > p:first-child::before 
+  font-family: FontAwesome
+  margin-right: 0.5em
+
+
+.plugin-callout > p:first-child > span:first-child 
+  font-weight: bold
+  font-size: 0
+
+
+.plugin-callout > p:first-child > span:first-child::after 
+  content: attr(data-type)
+  font-size: initial
+
+
+.plugin-callout > p:first-child > span:first-child:focus,
+.plugin-callout > p:first-child > span:first-child:focus-within,
+.plugin-callout > p:first-child.md-focus > span:first-child 
+  font-size: initial
+
+
+.plugin-callout > p:first-child > span:first-child:focus::after,
+.plugin-callout > p:first-child > span:first-child:focus-within::after,
+.plugin-callout > p:first-child.md-focus > span:first-child::after 
+  content: none
+
+
+.callout-folded > p:first-child :not(:first-child)  
+    display: none 
+    
+.callout-folded > p:not(:first-child) 
+    display: none 
+    
+
+.callout-folded:has(.md-focus) :not(:first-child):not(.md-softbreak) 
+    display: inherit !important 
+    
+.callout-folded:hover :not(:first-child):not(.md-softbreak) 
+    display: inherit !important 
+     
+
+.plugin-callout p:first-child span:nth-child(1)
+  display: inline-block
+
+.plugin-callout p:first-child span:nth-child(2)
+  display: block
+
+.plugin-callout[callout-type="tip"]
+  background-color: #D8F2E5
+  border-left: 4px solid #3ABD7E
+
+.plugin-callout[callout-type="tip"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f02c"
+  margin-right: 0.5em
+  color: #3ABD7E
+
+.plugin-callout[callout-type="tip"] p:first-child span:first-child
+  color: #3ABD7E
+
+.plugin-callout[callout-type="bug"]
+  background-color: #FEEED3
+  border-left: 4px solid #E0AC00
+
+.plugin-callout[callout-type="bug"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f188"
+  margin-right: 0.5em
+  color: #E0AC00
+
+.plugin-callout[callout-type="bug"] p:first-child span:first-child
+  color: #E0AC00
+
+.plugin-callout[callout-type="info"]
+  background-color: #DFF6DD
+  border-left: 4px solid #3ABD7E
+
+.plugin-callout[callout-type="info"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f05a"
+  margin-right: 0.5em
+  color: #3ABD7E
+
+.plugin-callout[callout-type="info"] p:first-child span:first-child
+  color: #3ABD7E
+
+.plugin-callout[callout-type="note"]
+  background-color: #E1D1EB
+  border-left: 4px solid #6A1B9A
+
+.plugin-callout[callout-type="note"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f040"
+  margin-right: 0.5em
+  color: #6A1B9A
+
+.plugin-callout[callout-type="note"] p:first-child span:first-child
+  color: #6A1B9A
+
+.plugin-callout[callout-type="quote"]
+  background-color: #FAFAFA
+  border-left: 4px solid #777777
+
+.plugin-callout[callout-type="quote"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f10d"
+  margin-right: 0.5em
+  color: #777777
+
+.plugin-callout[callout-type="quote"] p:first-child span:first-child
+  color: #777777
+
+.plugin-callout[callout-type="example"]
+  background-color: #F1EDFD
+  border-left: 4px solid #777777
+
+.plugin-callout[callout-type="example"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f133"
+  margin-right: 0.5em
+  color: #777777
+
+.plugin-callout[callout-type="example"] p:first-child span:first-child
+  color: #777777
+
+.plugin-callout[callout-type="caution"]
+  background-color: #FDE7E9
+  border-left: 4px solid #C62828
+
+.plugin-callout[callout-type="caution"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f024"
+  margin-right: 0.5em
+  color: #C62828
+
+.plugin-callout[callout-type="caution"] p:first-child span:first-child
+  color: #C62828
+
+.plugin-callout[callout-type="failure"]
+  background-color: #F4D4D4
+  border-left: 4px solid #C62828
+
+.plugin-callout[callout-type="failure"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f00d"
+  margin-right: 0.5em
+  color: #C62828
+
+.plugin-callout[callout-type="failure"] p:first-child span:first-child
+  color: #C62828
+
+.plugin-callout[callout-type="warning"]
+  background-color: #FEEED3
+  border-left: 4px solid #E0AC00
+
+.plugin-callout[callout-type="warning"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f071"
+  margin-right: 0.5em
+  color: #E0AC00
+
+.plugin-callout[callout-type="warning"] p:first-child span:first-child
+  color: #E0AC00
+
+.plugin-callout[callout-type="success"]
+  background-color: #D8F2E5
+  border-left: 4px solid #3ABD7E
+
+.plugin-callout[callout-type="success"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f00c"
+  margin-right: 0.5em
+  color: #3ABD7E
+
+.plugin-callout[callout-type="success"] p:first-child span:first-child
+  color: #3ABD7E
+
+.plugin-callout[callout-type="question"]
+  background-color: #FFF4CE
+  border-left: 4px solid #E0AC00
+
+.plugin-callout[callout-type="question"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f128"
+  margin-right: 0.5em
+  color: #E0AC00
+
+.plugin-callout[callout-type="question"] p:first-child span:first-child
+  color: #E0AC00
+
+.plugin-callout[callout-type="abstract"]
+  background-color: #E5F8F8
+  border-left: 4px solid #777777
+
+.plugin-callout[callout-type="abstract"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f00b"
+  margin-right: 0.5em
+  color: #777777
+
+.plugin-callout[callout-type="abstract"] p:first-child span:first-child
+  color: #777777
+
+.plugin-callout[callout-type="important"]
+  background-color: #D8E6F3
+  border-left: 4px solid #3B83C1
+
+.plugin-callout[callout-type="important"] > p:first-child::before
+  font-family: FontAwesome
+  content: "\f132"
+  margin-right: 0.5em
+  color: #3B83C1
+
+.plugin-callout[callout-type="important"] p:first-child span:first-child
+  color: #3B83C1
+
