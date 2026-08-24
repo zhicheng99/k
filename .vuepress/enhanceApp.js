@@ -51,7 +51,7 @@ export default ({ Vue, options, router, siteData, isServer }) => {
     const echartBlocks = document.querySelectorAll('.language-echarts')
     if (echartBlocks.length === 0 && document.querySelectorAll('.language-echarts').length === 0) {
       retryCount1++
-      if (retryCount1 < 5) setTimeout(intEcharts, 200)
+      if (retryCount1 < 5) setTimeout(initEcharts, 200)
       return
     }
     retryCount1 = 0
@@ -75,7 +75,7 @@ export default ({ Vue, options, router, siteData, isServer }) => {
     const markmapBlocks = document.querySelectorAll('.language-markmap')
     if (markmapBlocks.length === 0) {
       retryCount2++
-      if (retryCount2 < 5) setTimeout(intMarkmap, 200)
+      if (retryCount2 < 5) setTimeout(initMarkmap, 200)
       return
     }
     retryCount2 = 0
@@ -100,7 +100,7 @@ export default ({ Vue, options, router, siteData, isServer }) => {
   //   const markmapBlocks = document.querySelectorAll('.language-marp')
   //   if (markmapBlocks.length === 0) {
   //     retryCount3++
-  //     if (retryCount3 < 5) setTimeout(intMarkmap, 200)
+  //     if (retryCount3 < 5) setTimeout(initMarkmap, 200)
   //     return
   //   }
   //   retryCount3 = 0
