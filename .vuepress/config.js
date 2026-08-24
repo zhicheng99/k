@@ -42,6 +42,16 @@ module.exports = {
         ["js/详细解CommonJS和UMD.md", "详细解释一下CommonJS和UMD"]
       ]
     },
+    {
+      "title": "webgl",
+      "children": [
+        ["webgl/1hellopoint1.md", "1/hellopoint1"],
+        ["webgl/2hellopoint2 给着色器传值.md", "2/hellopoint2 给着色器传值"],
+        ["webgl/3clickpoints 点击绘点.md", "3/clickpoints 点击绘点"],
+        ["webgl/4coloredPoints 不同颜色的点.md", "4/coloredPoints 不同颜色的点"],
+        ["webgl/5mutiPoint 一次绘多个点.md", "5/mutiPoint 一次绘多个点"]
+      ]
+    },
     ["typora插入图片设置.md", "typora插入图片设置"]    ]
   }
 }
