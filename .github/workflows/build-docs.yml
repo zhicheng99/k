@@ -38,7 +38,7 @@ jobs:
       # 5. 提交 docs/ 变动回仓库
       - name: Commit and push docs
         run: |
-          git config user.name "zhicheng99 "
+          git config user.name "zhicheng99"
           git config user.email "lizhicheng9@163.com"
           git add docs/
           git diff --staged --quiet || git commit -m "chore: rebuild docs [skip ci]"

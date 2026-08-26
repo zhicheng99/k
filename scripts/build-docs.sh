@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo -e "\033[32m～～～～～～～～～～～～～～～～～～～～～～～～～\033[0m"
 echo -e "\033[31m  author: zhicheng\033[0m"
