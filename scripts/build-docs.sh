@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+mkdir -p docs .vuepress/dist
+
 echo -e "\033[32m～～～～～～～～～～～～～～～～～～～～～～～～～\033[0m"
 echo -e "\033[31m  author: zhicheng\033[0m"
 echo -e "\033[31m  该脚本使用vuepress自动生成静态站点到docs目录中\033[0m"

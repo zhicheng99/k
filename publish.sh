@@ -109,8 +109,6 @@ npm run build
 echo -e "\033[32m 步骤3: 清空docs文件夹\033[0m"
 rm -rf docs/*
 
-echo "在这里生成静态站点" > docs/.gitkeep
-
 echo -e "\033[32m 步骤4: 整站文件拷贝到docs中\033[0m"
 cp -R .vuepress/dist/* docs/
 
