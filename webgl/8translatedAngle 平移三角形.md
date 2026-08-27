@@ -1,26 +1,6 @@
-# 5/mutiPoint 一次绘多个点
+# 8/translatedAngle 平移三角形
 
-![image-20260827141029628](./assets/image-20260827141029628.png)
-
-![image-20260824152340704](./assets/image-20260824152340704.png)
-
-> [!tip]
->
-> 缓存区就只是一段连续的内存，存原始数值。没有"结构"，没有类型信息，没有字段名——就是一个字节数组。缓冲区本身不懂自己存的是什么，是后面的 `vertexAttribPointer` 告诉它怎么解读：
-
-````
-缓冲区里的原始字节              vertexAttribPointer 告诉你怎么读
-┌─────────────────────────────┐
-│ 0.0 | 0.5 | -0.5 | -0.5 ... │  ← 对缓冲区来说，就是一堆字节
-└─────────────────────────────┘        没有"x"、没有"y"、没有"顶点"的概念
-
-vertexAttribPointer(
-    a_Position, 2, gl.FLOAT, false, 0, 0
-    └────┘   └─┘   └─────┘      └─┘└─┘
-    哪个变量  几个  什么类型  步长 偏移
-                  一组
-)
-````
+![image-20260827144958923](./assets/image-20260827144958923.png)
 
 ```
 /**
@@ -117,14 +97,13 @@ function loadShader(gl, type, source) {
   return shader;
 }
 
-
 function initWebGL(canvas) {
   const dpr = window.devicePixelRatio || 1;
   console.log(dpr);
   canvas.width = 400 * dpr;
-  canvas.height = 300 * dpr;
+  canvas.height = 400 * dpr;
   canvas.style.width = '400px';
-  canvas.style.height = '300px'
+  canvas.style.height = '400px'
 
   const gl = canvas.getContext('webgl');
   if (!gl) {
@@ -146,9 +125,9 @@ window.onload = function(){
     //顶点着色器程序
     var VSHADER_SOURCE = 
     'attribute vec4 a_Position;\n'+ 
+    'uniform vec4 u_Translation;\n'+
     'void main(){\n'+
-    ' gl_Position = a_Position;\n'+
-    ' gl_PointSize = 10.0;\n'+
+    ' gl_Position = a_Position + u_Translation;\n'+
     '}\n';
 
     // //片元着色器
@@ -156,6 +135,9 @@ window.onload = function(){
     'void main(){\n'+
     ' gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n'+
     '}\n';
+
+    //在x y z方向上平移的距离
+    var Tx = 0.5,Ty = 0.5,Tz = 0.0;
  
 
     var canvas = document.getElementById('webgl')
@@ -177,14 +159,34 @@ window.onload = function(){
         console.log('failed to set the position of the vertices')
         return;
     }
+    //将平移距离传输给定点着色器
+    /*
+       最后，我来解释一下齐次坐标矢量的最后一个分量w。
+       如第2章所述，gl_Position是齐次坐标，具有4个分量。
+       如果齐次坐标的最后一个分量是1.0，
+       那么它的前三个分量就可以表示一个点的三维坐标。
+       在本例中，平移后点坐标第4分量w1+w2必须是1.0(因为点的位置坐标平移之后还是一个点位置坐标)，
+       而wl是1.0（它是平移前点坐标第4分量)，所以平移矢量本身的第4分量w2只能是0.0，
+       这就是为什么gl.uniform4f()的最后一个参数为0.0。 
+     */
+    var u_Translation = gl.getUniformLocation(gl.program,'u_Translation');
+    gl.uniform4f(u_Translation,Tx,Ty,Tz,0.0);
+
+
      //设置<canvas>背景色
     gl.clearColor(0.0,0.0,0.0,1.0);
 
     // //清空<canvas>
     gl.clear(gl.COLOR_BUFFER_BIT)
 
-    // //绘制三个点
-    gl.drawArrays(gl.POINTS,0,n)
+    // //绘制三角形
+    // gl.drawArrays(gl.TRIANGLES,0,n)
+    // gl.drawArrays(gl.LINE,0,n)
+    // gl.drawArrays(gl.LINE_STRIP,0,n)
+    gl.drawArrays(gl.LINE_LOOP,0,n)
+
+
+
 
     /*
     使用缓冲区对象向顶点着色器传入多个顶点的数据 五步骤
@@ -212,7 +214,7 @@ window.onload = function(){
 
         //3向缓存区对象中写入数据
         //该方法的效果是，将第2个参数vertices中的数据写入了绑定到第1个参数gl.ARRAY_BUFFER上的缓冲区对象。
-        //不能直接向缓冲区写入数据，而只能向“目标"写人数据，所以要向缓冲区写数据，必须先绑定。 
+        //我们不能直接向缓冲区写入数据，而只能向“目标"写人数据，所以要向缓冲区写数据，必须先绑定。 
         gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);
 
         var a_Position = gl.getAttribLocation(gl.program,'a_Position');
@@ -223,67 +225,21 @@ window.onload = function(){
         //4、分配 将缓存区对象分配给a_Position变量
         gl.vertexAttribPointer(a_Position,2,gl.FLOAT,false,0,0);
 
-       /* 
-        vertexAttribPointer(
-            location,    // 哪个 attribute 变量
-            size,        // 每个顶点有几个分量（x,y → 2个）
-            type,        // 数据类型（浮点数）
-            normalized,  // 是否归一化（整数类型才有意义）
-            stride,      // 步长（相邻顶点之间隔多少字节）
-            offset       // 偏移（从哪个字节开始读第一个顶点）
-        )
-
-        参数	值	含义
-        location	a_Position	着色器里的 a_Position 变量
-        size	2	每个顶点有 2个分量（x, y）
-        type	gl.FLOAT	数据是浮点数
-        normalized	false	不做归一化处理
-        stride	0	顶点之间紧密排列，无间隔（0表示自动计算）
-        offset	0	从第 0 个字节开始读取
-        */
-
-        //5、连接 连接a_Position变量与分配给它的缓存区对象 （打开这个 attribute 变量的数据流开关。）
-        //enableVertexAttribArray 是一个使能开关，告诉 WebGL：渲染时请从这个 attribute 关联的缓冲区读取数据，而不是使用默认的固定值。
+        //5、连接 连接a_Position变量与分配给它的缓存区对象
         gl.enableVertexAttribArray(a_Position);
 
         return n;
 
     }
+   
 
-/*
-第1步：找个盘子（创建缓冲区）
-第2步：把盘子放在桌上（绑定）
-第3步：把菜放进去（写入数据）
-第4步：告诉厨师"这盘菜怎么吃"（描述布局）
-第5步：把菜推到厨师面前（开启数据流）
-*/ 
+
+   
+    
+
 }
 ```
 
-五步骤对应图示
-
-![image-20260827105601677](./assets/image-20260827105601677.png)
-
-> [!tip]
-> 创建对象 ->绑定对象->写数据进对象->分配对象->开启被分配变量开关
-
-
-
-> [!info]
-> 步骤1：var vertexBuffer = gl.createBuffer();  该语句执行后 webGL 系统中多了一个新创建出来的缓冲 区对象。
-
-![image-20260827110607780](./assets/image-20260827110607780.png)
-
-> [!info]
-> 步骤2：gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer) 将缓冲区对象绑定到了g1.ARRAY_BUFFER 目标上,缓冲区对象 中存储着的关于顶点的数据(顶点的位置坐标)。
-
-![image-20260827111224938](./assets/image-20260827111224938.png)
-
-> [!info]
-> 步骤5：当你执行gl.enableVertexattribArray() 并传入一个已经分配好缓冲区的 attribue 变 量后,我们就开启了该变量,也就是说,缓冲区对象和 attribute 变量之间的连接就真正 建立起来了,
-
-
-
-> gl.drawArrays(gl.POINTS,0,n) 绘制三个点的过程 
-
-![image-20260827113353069](./assets/image-20260827113353069.png)
+> [!note]
+> 因为a_Position 和u Translation 变量都是 vec4 类型的,所以你可以直接使用+号, 两个的矢量的对应分量会被同时相加,如图 3.20 所示。方便的矢量相加运算是 GLSL ES 提供的特性之一
+> ![image-20260827145055565](./assets/image-20260827145055565.png)

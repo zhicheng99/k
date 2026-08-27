@@ -1,6 +1,9 @@
-# 3/clickpoints 点击绘点
+# 7/helloQuad_FAN 绘飘带
 
-![image-20260827140850137](./assets/image-20260827140850137.png)
+![image-20260827143843723](./assets/image-20260827143843723.png)
+
+> [!tip]
+> g1.TRIANGLE FAN  一系列三角形组成的类似于扇形的图形。前三个点构成了第1 个三角形,接下来的一个点和前一个三角形的最后一条边组 成接下来的一个三角形。这些三角形被绘制在(v0, v1, v2)、 (v0, v2, v3)、(v0, v3, v4) ………处
 
 ```
 /**
@@ -96,13 +99,15 @@ function loadShader(gl, type, source) {
 
   return shader;
 }
+
+
 function initWebGL(canvas) {
   const dpr = window.devicePixelRatio || 1;
   console.log(dpr);
   canvas.width = 400 * dpr;
-  canvas.height = 300 * dpr;
+  canvas.height = 400 * dpr;
   canvas.style.width = '400px';
-  canvas.style.height = '300px'
+  canvas.style.height = '400px'
 
   const gl = canvas.getContext('webgl');
   if (!gl) {
@@ -113,6 +118,7 @@ function initWebGL(canvas) {
   gl.clearColor(0, 0, 0, 1);
   return gl;
 }
+
 window.onload = function(){
 
     /*
@@ -125,11 +131,10 @@ window.onload = function(){
     'attribute vec4 a_Position;\n'+ 
     'void main(){\n'+
     ' gl_Position = a_Position;\n'+
-    ' gl_PointSize = 10.0;\n'+
     '}\n';
 
     // //片元着色器
-    var FSHADER_SOURCE = 
+    var FSHADER_SOURCE =  
     'void main(){\n'+
     ' gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n'+
     '}\n';
@@ -148,56 +153,70 @@ window.onload = function(){
         return;
     }
 
-    //获取变量attribute的存储位置
-    var a_Position = gl.getAttribLocation(gl.program,'a_Position');
-    
-    if(a_Position < 0){
-        console.log('failed to get the storage location of a_Position')
-    }  
-
-
-   canvas.onmousedown = function(ev){click(ev,gl,canvas,a_Position);}
-
-    //将顶点位置传输给attribute变量
-    //gl.vertexAttrib3f(a_Position,0.0,0.0,0.0); 
-
-
-    var g_points = [];  //鼠标点击位置数组
-    function click(ev,gl,canvas,a_Position){
-        var x = ev.clientX;
-        var y = ev.clientY;
-        var rect = ev.target.getBoundingClientRect();
-        x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-        y = (canvas.height/2 - (y-rect.top))/(canvas.height/2);
-        console.log(x,y);
-        g_points.push([x,y]);
-
-        // //清空<canvas>
-        //gl.clear(gl.COLOR_BUFFER_BIT)
-        var len = g_points.length;
-        for(var i=0;i<len;i++){
-            //将点的位置传递到变量中
-            gl.vertexAttrib3f(a_Position,g_points[i][0],g_points[i][1],0.0)
-
-            //绘制点
-            gl.drawArrays(gl.POINTS,0,1)
-        }
-        
+    //设置顶点位置
+    var n = initVertexBuffers(gl)
+    if(n<0){
+        console.log('failed to set the position of the vertices')
+        return;
     }
-
-    
-
-
-    //设置<canvas>背景色
-    // gl.clearColor(0.0,0.0,0.0,1.0);
+     //设置<canvas>背景色
+    gl.clearColor(0.0,0.0,0.0,1.0);
 
     // //清空<canvas>
-    // gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.clear(gl.COLOR_BUFFER_BIT)
 
-    // //绘制一个点
-    // gl.drawArrays(gl.POINTS,0,1)
-    
+    // //绘制三角形
+    // gl.drawArrays(gl.TRIANGLES,0,n)
+    // gl.drawArrays(gl.LINE,0,n)
+    // gl.drawArrays(gl.LINE_STRIP,0,n)
+    gl.drawArrays(gl.TRIANGLE_FAN,0,n)
 
+
+
+
+    /*
+    使用缓冲区对象向顶点着色器传入多个顶点的数据 五步骤
+    1.创建缓冲区对象 (gl.createBuffer())。
+    2.绑定缓冲区对象(gl.bindBuffer())。
+    3.将数据写人缓冲区对象(gl.bufferData())。
+    4.将缓冲区对象分配给一个attribute变量(gl.vertexAttribPointer())
+    5.开启attribute变量(gl.enableVertexAttribArray())。*/
+    function initVertexBuffers(gl){
+        var vertices = new Float32Array([
+            -0.5,0.5,0.5,0.5,-0.5,-0.5,0.5,-0.5
+        ]) 
+        var n = 4;
+
+        //1创建缓存区对象
+        var vertexBuffer = gl.createBuffer();
+        if(!vertexBuffer){
+            console.log('failed to create the buffer object');
+            return -1;
+        }
+
+        //2将缓存区对象绑定到目标。这个“目标”表示缓冲区对象的用途（在这里，就是向顶点着色器提供传给attribute变量的数据)，这样WebGL才能够正确处理其中的内容。
+        //gl.ARRAY_BUFFER表示缓冲区对象中包含了顶点的索引值 
+        gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer)
+
+        //3向缓存区对象中写入数据
+        //该方法的效果是，将第2个参数vertices中的数据写入了绑定到第1个参数gl.ARRAY_BUFFER上的缓冲区对象。
+        //我们不能直接向缓冲区写入数据，而只能向“目标"写人数据，所以要向缓冲区写数据，必须先绑定。 
+        gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);
+
+        var a_Position = gl.getAttribLocation(gl.program,'a_Position');
+        if(a_Position < 0){
+            console.log('failed to get the storage location of a_Position')
+        }  
+
+        //4、分配 将缓存区对象分配给a_Position变量
+        gl.vertexAttribPointer(a_Position,2,gl.FLOAT,false,0,0);
+
+        //5、连接 连接a_Position变量与分配给它的缓存区对象
+        gl.enableVertexAttribArray(a_Position);
+
+        return n;
+
+    } 
 }
 ```
 

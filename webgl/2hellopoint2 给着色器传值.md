@@ -1,5 +1,7 @@
 # 2/hellopoint2 给着色器传值
 
+![image-20260827140815662](./assets/image-20260827140815662.png)
+
 ```
 /**
  * Create a program object and make current

@@ -1,5 +1,7 @@
 # 4/coloredPoints 不同颜色的点
 
+![image-20260827140955549](./assets/image-20260827140955549.png)
+
 ```
 /**
  * Create a program object and make current
