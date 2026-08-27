@@ -264,3 +264,24 @@ window.onload = function(){
 
 > [!tip]
 > 创建对象 ->绑定对象->写数据进对象->分配对象->开启被分配变量开关
+
+
+
+> [!info]
+> 步骤1：var vertexBuffer = gl.createBuffer();  该语句执行后 webGL 系统中多了一个新创建出来的缓冲 区对象。
+
+![image-20260827110607780](./assets/image-20260827110607780.png)
+
+> [!info]
+> 步骤2：gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer) 将缓冲区对象绑定到了g1.ARRAY_BUFFER 目标上,缓冲区对象 中存储着的关于顶点的数据(顶点的位置坐标)。
+
+![image-20260827111224938](./assets/image-20260827111224938.png)
+
+> [!info]
+> 步骤5：当你执行gl.enableVertexattribArray() 并传入一个已经分配好缓冲区的 attribue 变 量后,我们就开启了该变量,也就是说,缓冲区对象和 attribute 变量之间的连接就真正 建立起来了,
+
+
+
+> gl.drawArrays(gl.POINTS,0,n) 绘制三个点的过程 
+
+![image-20260827113353069](./assets/image-20260827113353069.png)
