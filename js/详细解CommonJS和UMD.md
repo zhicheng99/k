@@ -10,7 +10,7 @@
 
 2009 年之前，JS **没有官方的模块系统**。浏览器靠 `<script>`标签顺序加载，全局变量满天飞，命名冲突是常态。
 
-Ryan Dahl 做 Node.js 时，需要一个**服务端可用的模块规范**，于是社区制定了 CommonJS（最早叫 ServerJS）。
+Ryan Dahl 做<span style="font-weight:bold;"> <span style="color:#FF0000;">Node.js</span></span> 时，需要一个**服务端可用的模块规范**，于是社区制定了 CommonJS（最早叫 ServerJS）。
 
 > 一句话：**CommonJS 是为服务端设计的同步模块规范。**
 
